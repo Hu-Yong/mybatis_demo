@@ -5,10 +5,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.beatrace.mybatis.mapper.UserMapper;
+import org.beatrace.mybatis.pojo.User;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class MyBatisTest {
     /**
@@ -40,5 +42,32 @@ public class MyBatisTest {
 //        sqlSession.commit();
 
         System.out.println("result: " + result);
+    }
+
+    @Test
+    public void testselectAll() throws IOException{
+
+        //加载核心配置文件
+        InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+
+        //获取sqlsessionfactorybuilder
+        SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
+
+        //获取factory
+        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
+
+        //获取sqlsession
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+
+        //获取mapper接口对象
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class); //代理模式
+
+        //测试功能
+        List<User> results = mapper.selectAll();
+
+        for(User result : results) {
+            System.out.println(result);
+        }
+
     }
 }

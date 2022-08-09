@@ -6,7 +6,12 @@
 
     <!--int insertUser();-->
     <insert id="insertUser">
-        insert into t_user values(null, "marina", "456",23,'f',"153456@qq.com")
+        insert into t_user values(null, "beatrace", "356",24,'m',"475893@qq.com")
     </insert>
+
+    <!--List<User> selectAll();-->
+    <select id="selectAll" resultType="org.beatrace.mybatis.pojo.User">
+        select * from t_user
+    </select>
 
 </mapper>
