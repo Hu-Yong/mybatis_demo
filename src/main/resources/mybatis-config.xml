@@ -3,6 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <typeAliases>
+        <!--
+        typeAlias：设置某个具体的类型的别名
+        属性：
+        type：需要设置别名的类型的全类名
+        alias：设置此类型的别名，且别名不区分大小写。若不设置此属性，该类型拥有默认的别名，即类名
+        -->
+        <!--<typeAlias type="com.atguigu.mybatis.bean.User"></typeAlias>-->
+        <!--<typeAlias type="com.atguigu.mybatis.bean.User" alias="user">
+        </typeAlias>-->
+        <!--以包为单位，设置改包下所有的类型都拥有默认的别名，即类名且不区分大小写-->
+        <package name="org.beatrace.mybatis.pojo"/>
+    </typeAliases>
     <!--设置连接数据库的环境-->
     <environments default="development">
         <environment id="development">

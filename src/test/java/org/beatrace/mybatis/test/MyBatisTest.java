@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.beatrace.mybatis.mapper.UserMapper;
 import org.beatrace.mybatis.pojo.User;
+import org.beatrace.mybatis.utils.SqlSessionUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -20,54 +21,66 @@ public class MyBatisTest {
 
     @Test
     public void testInsertUser() throws IOException {
-        //加载核心配置文件
-        InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
-
-        //获取sqlsessionfactorybuilder
-        SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
-
-        //获取factory
-        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
-
-        //获取sqlsession
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         //获取mapper接口对象
         UserMapper mapper = sqlSession.getMapper(UserMapper.class); //代理模式
-
         //测试功能
         int result = mapper.insertUser();
-
         //提交事务（写的type是JDBC）
 //        sqlSession.commit();
-
         System.out.println("result: " + result);
     }
 
     @Test
     public void testselectAll() throws IOException{
-
-        //加载核心配置文件
-        InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
-
-        //获取sqlsessionfactorybuilder
-        SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
-
-        //获取factory
-        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
-
-        //获取sqlsession
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         //获取mapper接口对象
         UserMapper mapper = sqlSession.getMapper(UserMapper.class); //代理模式
-
         //测试功能
         List<User> results = mapper.selectAll();
-
         for(User result : results) {
             System.out.println(result);
         }
 
+    }
+
+    @Test
+    public void testGetUserById() throws IOException{
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        //获取mapper接口对象
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class); //代理模式
+        //测试功能
+        User result = mapper.getUserById();
+        System.out.println(result);
+    }
+
+    @Test
+    public void testupdateUser() throws IOException{
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        //获取mapper接口对象
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class); //代理模式
+        //测试功能
+        int count = mapper.updateUser();
+        System.out.println(count);
+    }
+
+    @Test
+    public void testgetUserByUsername() throws IOException{
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        //获取mapper接口对象
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class); //代理模式
+        //测试功能
+        User res = mapper.getUserByUsername("张三");
+        System.out.println(res);
+    }
+
+    @Test
+    public void testcheckLogin() throws IOException{
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        //获取mapper接口对象
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class); //代理模式
+        //测试功能
+        User res = mapper.checkLogin("张三","356");
+        System.out.println(res);
     }
 }

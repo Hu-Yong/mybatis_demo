@@ -9,9 +9,29 @@
         insert into t_user values(null, "beatrace", "356",24,'m',"475893@qq.com")
     </insert>
 
+    <!-- User getUserBuId();-->
+    <select id="getUserById" resultType="User">
+        select * from t_user where id = 4
+    </select>
+
+    <!--    int updateUser();-->
+    <update id="updateUser">
+        update t_user set username = '张三' where id = 4
+    </update>
+
     <!--List<User> selectAll();-->
-    <select id="selectAll" resultType="org.beatrace.mybatis.pojo.User">
+    <select id="selectAll" resultType="User">
         select * from t_user
+    </select>
+
+    <!--    User getUserByUsername(String username);-->
+    <select id="getUserByUsername" resultType="User">
+        select * from t_user where username = '${username}'
+    </select>
+
+    <!--User checkLogin(String username,String password);-->
+    <select id="checkLogin" resultType="User">
+         select * from t_user where username = '${param1}' and password = '${param2}'
     </select>
 
 </mapper>
