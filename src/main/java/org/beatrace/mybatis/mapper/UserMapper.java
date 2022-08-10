@@ -45,4 +45,13 @@ public interface UserMapper {
      * 查询指定表中的数据
      */
     List<User> getUserByTableName(String tableName);
+
+
+
+    /**
+     * 添加用户
+     */
+    void insetUser2(User user);
+
+
 }

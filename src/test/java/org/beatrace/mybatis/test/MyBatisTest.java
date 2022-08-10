@@ -134,9 +134,35 @@ public class MyBatisTest {
     public void testGetUserByLike(){
         SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        List<User> user = mapper.getUserByLike("Pan");
+        List<User> user = mapper.getUserByLike("兔兔");
         System.out.println(user);
     }
+
+    @Test
+    public void testDeleteMore(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        int result = mapper.deleteMore("12, 13");
+        System.out.println(result);
+    }
+
+    @Test
+    public void testGetUserByTableName(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        List<User> t_user = mapper.getUserByTableName("t_book");
+        System.out.println(t_user);
+    }
+
+    @Test
+    public void testInsetUser2(){
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        mapper.insetUser2(new User(null, "兔兔","111",11,"f","abc@qq.com"));
+    }
+
+
+
 
 
 }
