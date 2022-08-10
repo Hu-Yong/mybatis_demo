@@ -5,9 +5,9 @@
 <mapper namespace="org.beatrace.mybatis.mapper.UserMapper">
 
     <!--int insertUser();-->
-    <insert id="insertUser">
-        insert into t_user values(null, "beatrace", "356",24,'m',"475893@qq.com")
-    </insert>
+<!--    <insert id="insertUser">-->
+<!--        insert into t_user values(null, "beatrace", "356",24,'m',"475893@qq.com")-->
+<!--    </insert>-->
 
     <!-- User getUserBuId();-->
     <select id="getUserById" resultType="User">
@@ -31,7 +31,43 @@
 
     <!--User checkLogin(String username,String password);-->
     <select id="checkLogin" resultType="User">
+        <!--
+               写：select * from t_user where username = #{username} and password = #{password}
+               会报错：Parameter 'username' not found. Available parameters are [arg1, arg0, param1, param2]
+               因为sql语句没有解析成功-->
+        <!--以map集合形式存储，arg0->param1, arg1->param2，这时直接用键arg访问就好了，用param访问也行。
+		以下两种方式选一个：-->
          select * from t_user where username = '${param1}' and password = '${param2}'
     </select>
+
+    <!--    checkLoginByMap(Map<String, Object> map);-->
+    <select id="checkLoginByMap" resultType="User">
+        select * from t_user where username = #{username} and password = #{password}
+    </select>
+
+    <!--        int insertUser(User user);-->
+    <!--    找到相对应的get方法，如username->找getUsername()，看get/set方法-->
+    <insert id="insertUser">
+        insert into t_user values(null, #{username}, #{password}, #{age}, #{gender}, #{email})
+    </insert>
+
+
+    <!--    以@Param的值为键，参数为值; 或以"param1"/"param2"为键，参数为值-->
+    <!--    User checkLoginByParam(@Param("username") String username, @Param("password") String password);-->
+    <select id="checkLoginByParam" resultType="User">
+        select * from t_user where username = #{username} and password = #{password}
+    </select>
+
+    <!--    List<User> getUserByLike(@Param("username") String username);-->
+    <!--    使用#{}，因为包括在单引号里，会被认为是字符串的一部分:select * from t_user where username like '%#{username}%'-->
+    <!--    三种方式-->
+    <select id="getUserByLike" resultType="User">
+        <!--  第一种 select * from t_user where username like '%${username}%'
+          第二种 select * from t_user where username like concat('%', #{username}, '%')-->
+        <!--第三种 推荐使用-->
+        select * from t_user where username like "%"#{username}"%"
+    </select>
+
+
 
 </mapper>
